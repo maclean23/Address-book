@@ -8,6 +8,7 @@ public class PrepareTargetMethod {
 	 *
 	 * @param name a {@link java.lang.String}
 	 * @return methodName a {@link java.lang.String}
+	 * dummy code
 	 */
 	public String prepareTargetMethod(String name) {
 		StringBuffer fieldName = new StringBuffer(METHOD_GET_PREFIX);
