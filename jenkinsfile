@@ -11,7 +11,7 @@ pipeline {
         stage('compile') {
             steps {
                 echo 'Compiling Stage'
-                git 'https://github.com/awsdevopsclass2022/DevOpsClassCodes-aug.git'
+                git 'git@github.com:maclean23/Address-book.git'
                 sh 'mvn compile'
             }
         }
@@ -29,9 +29,9 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                echo 'Docker docker build stage'  
-                sh 'docker build -t devopsclass2022/address-app:${JOB_NAME}-${BUILD_NUMBER} .' 
-                //sh 'docker login -u devopsclass2022 -p  Done24Money@' 
+                echo 'Docker build stage'  
+                sh 'docker build -t maclean23/Address-book:${JOB_NAME}-${BUILD_NUMBER} .' 
+                //sh 'docker login -u maclean23 -p  MADZ23MADZ' 
                // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
         
             }
@@ -41,7 +41,7 @@ pipeline {
         stage('Docker Login') {
             steps {
  
-                //sh 'docker login -u devopsclass2022 -p  Done24Money@' 
+                //sh 'docker login -u maclean23 -p  MADZ23MADZ' 
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
         
             }
@@ -52,13 +52,35 @@ pipeline {
         stage('Push Image to Dockerhub') {
             steps {
                 echo 'Docker Registry'
-                sh 'docker push devopsclass2022/address-app:${JOB_NAME}-${BUILD_NUMBER}'
+                sh 'docker push maclean23/address-book:${JOB_NAME}-${BUILD_NUMBER}'
             }
         } 
 
         stage('Clean Up Docker Image') {
             steps {
-                sh 'docker rmi devopsclass2022/address-app:${JOB_NAME}-${BUILD_NUMBER}'
+                sh 'docker rmi maclean23/address-book:${JOB_NAME}-${BUILD_NUMBER}'
+            }
+        }
+        stage('Deployment to QA (Ansible)') { 
+
+            // when {
+            //     expression { env.BRANCH_NAME == 'orig/development' }
+            // }
+            steps {
+                //sh 'ansible-playbook ansible-docker-deploy-playbook.yaml'
+                sh "echo 'today@1234' | su -c 'ansible-playbook ansible-deploy-playbook-QA.yaml' devops"
+            }
+        }
+
+        stage('Deployment to Staging') { 
+
+            // when {
+            //     expression { env.BRANCH_NAME == 'master' }
+            // }
+
+            steps {
+                //sh 'ansible-playbook ansible-docker-deploy-playbook.yaml'
+                sh "echo 'today@1234' | su -c 'ansible-playbook ansible-deploy-playbook-Staging.yaml' devops"
             }
         }
     }
