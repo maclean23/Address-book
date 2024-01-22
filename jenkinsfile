@@ -6,7 +6,7 @@ pipeline {
         stage('compile') {
             steps {
                 echo 'Compiling Stage'
-                git 'https://github.com/maclean23/Address-book.git'
+                git 'https://github.com/maclean23/address-book.git'
                 sh 'mvn compile'
             }
         }
