@@ -60,7 +60,7 @@ pipeline {
          }
         stage('Clean Up Docker Image') {
             steps {
-                sh 'docker rmi maclean23/address-book:${JOB_NAME}-${BUILD_NUMBER}'
+                sh 'docker rmi -f maclean23/address-book:${JOB_NAME}-${BUILD_NUMBER}'
             }
         }
         stage('Deployment to QA (Ansible)') { 
